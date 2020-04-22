@@ -6,16 +6,19 @@ class MyBottomNavigationBar extends StatefulWidget {
 }
 
 class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
-  int _currentIndex = 0;
   onTabTapped(int index) {
     print(index);
     switch(index) {
       case 0: {
-        Navigator.pushReplacementNamed(context, '/homepage');
+        if(ModalRoute.of(context).settings.name != '/homepage') {
+          Navigator.pushReplacementNamed(context, '/homepage');
+        }
       }
       break;
       case 3: {
-        Navigator.pushReplacementNamed(context, '/profile');
+        if(ModalRoute.of(context).settings.name != '/profile') {
+          Navigator.pushReplacementNamed(context, '/profile');
+        }
       }
       break;
     }

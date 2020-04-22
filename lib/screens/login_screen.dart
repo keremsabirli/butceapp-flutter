@@ -1,3 +1,5 @@
+import 'package:butceappflutter/api/repositories/user_repository.dart';
+import 'package:butceappflutter/widgets/dialogs.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -6,7 +8,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final userRepository = new UserRepository();
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
                     child: TextFormField(
+                      controller: emailController,
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter email';
@@ -51,6 +58,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
                     child: TextFormField(
+                      obscureText: true,
+                      controller: passwordController,
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter password';
@@ -68,6 +77,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Theme.of(context).accentColor,
                       onPressed: () {
                         if(_formKey.currentState.validate()) {
+                          Dialogs.showLoadingDialog(context, _keyLoader);
+                          this.userRepository.logIn(
+                            this.emailController.text,
+                            this.passwordController.text,
+                          ).then((response) {
+                            print(response.body);
+                            Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+                            if(response.statusCode == 200) {
+                              Navigator.pushReplacementNamed(context, "/homepage");
+                            }
+                          });
                         }
                       },
                       child: Text(
@@ -77,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, "/signup");
+                      Navigator.pushReplacementNamed(context, "/signup");
                     },
                     child: Text(
                       "Sign up",

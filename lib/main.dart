@@ -1,7 +1,11 @@
+import 'package:butceappflutter/screens/expense_add_screen.dart';
+import 'package:butceappflutter/screens/home_screen.dart';
 import 'package:butceappflutter/screens/login_screen.dart';
+import 'package:butceappflutter/screens/member_add_screen.dart';
+import 'package:butceappflutter/screens/profile_screen.dart';
 import 'package:butceappflutter/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 void main() {
   runApp(MyApp());
 }
@@ -23,10 +27,15 @@ class MyApp extends StatelessWidget {
           )
         )
       ),
+
       initialRoute: '/login',
       routes: <String, WidgetBuilder> {
         '/login': (context) => LoginScreen(),
         '/signup': (context) => SignupScreen(),
+        '/homepage': (context) => HomeScreen(),
+        '/profile': (context) => ProfileScreen(),
+        '/members/add': (context) => MemberAddScreen(),
+        '/expense/add': (context) => ExpenseAddScreen()
       },
     );
   }

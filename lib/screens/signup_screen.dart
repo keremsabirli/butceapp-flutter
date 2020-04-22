@@ -1,4 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:butceappflutter/api/repositories/user_repository.dart';
+import 'package:butceappflutter/widgets/dialogs.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -7,6 +13,12 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  bool loading = false;
+  final userRepository = new UserRepository();
+  final emailController = TextEditingController();
+  final nameController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +49,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
                       child: TextFormField(
+                        controller: nameController,
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Please enter username';
@@ -51,6 +64,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
                       child: TextFormField(
+                        controller: emailController,
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Please enter email';
@@ -65,6 +79,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
                       child: TextFormField(
+                        obscureText: true,
+                        controller: passwordController,
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Please enter password';
@@ -82,6 +98,17 @@ class _SignupScreenState extends State<SignupScreen> {
                         color: Theme.of(context).accentColor,
                         onPressed: () {
                           if(_formKey.currentState.validate()) {
+                            Dialogs.showLoadingDialog(context, _keyLoader);
+                            this.userRepository.signUp(
+                                this.emailController.text,
+                                this.nameController.text,
+                                this.passwordController.text
+                            ).then((response) {
+                              Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+                              if(response.statusCode == 200) {
+                                Navigator.pushReplacementNamed(context, "/homepage");
+                              }
+                            });
                           }
                         },
                         child: Text(
@@ -91,10 +118,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "/signup");
+                        Navigator.pushReplacementNamed(context, "/login");
                       },
                       child: Text(
-                        "Sign up",
+                        "Login",
                         style: TextStyle(
                             fontStyle: FontStyle.italic
                         ),
