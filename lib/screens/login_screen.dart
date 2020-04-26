@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             Container(
               child: Text(
-                'Login',
+                'Giriş Yap',
                 style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontSize: 36,
@@ -36,6 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            SizedBox(height: 5),
             Form(
               key: _formKey,
               child: Column(
@@ -51,7 +52,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        labelText: 'Email'
+                        labelText: 'Email',
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(25.0),
+                          borderSide: new BorderSide(),
+                        ),
                       ),
                     ),
                   ),
@@ -67,14 +72,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         return null;
                       },
                       decoration: InputDecoration(
-                          labelText: 'Password'
+                        labelText: 'Password',
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(25.0),
+                          borderSide: new BorderSide(),
+                        ),
                       ),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
                     child: RaisedButton(
-                      color: Theme.of(context).accentColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      color: Theme.of(context).primaryColor,
+                      textColor: Theme.of(context).accentColor,
                       onPressed: () {
                         if(_formKey.currentState.validate()) {
                           Dialogs.showLoadingDialog(context, _keyLoader);
@@ -91,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                       child: Text(
-                        'Submit',
+                        'Login',
                       ),
                     ),
                   ),

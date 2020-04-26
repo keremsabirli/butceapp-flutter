@@ -1,4 +1,6 @@
-class User {
+import 'Shared.dart';
+
+class User extends Shared {
   final String name;
   final String mailAdress;
   final String hashedPassword;

@@ -3,6 +3,7 @@ import 'package:butceappflutter/widgets/my_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 class ExpenseAddScreen extends StatefulWidget {
   @override
@@ -15,10 +16,11 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
   var selectedCategory;
   var selectedShop;
   var selectedCity;
-  String selectedType;
+  var selectedType;
   List<String> _accountType = <String>[
     'Nakit',
-    'Kredi Kartı'
+    'Kredi Kartı',
+    'Çek'
   ];
   List<String> _categories = <String>[
     'Akaryakıt',
@@ -45,8 +47,21 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
     'Sakarya',
     'Kocaeli',
     'Bursa',
-    'Ankara',
+    'Düzce',
+    'Isparta',
   ];
+  DateTime _currentdate=new DateTime.now();
+  Future<Null> _selectDate(BuildContext context)async{
+    final DateTime _seldate  = await showDatePicker(
+        context: context,
+        initialDate: _currentdate,
+        firstDate: DateTime(2018),
+        lastDate: DateTime(2022),
+        builder: (context,child){
+          return SingleChildScrollView(child:child,);
+        }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,18 +70,18 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
           alignment: Alignment.center,
           child: Text("Harcama Ekle",
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).accentColor,
               )),
         ),
         actions: <Widget>[
-          IconButton(
+          IconButton(onPressed: (){
+            _selectDate(context);
+          },
             icon: Icon(
-              FontAwesomeIcons.coins,
-              size: 20.0,
-              color: Colors.white,
+              Icons.date_range,
+              color: Theme.of(context).accentColor,
             ),
-            onPressed: () {},
-          ),
+          )
         ],
       ),
       body: Form(
@@ -84,7 +99,7 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
                 Icon(
                   FontAwesomeIcons.book, //coins
                   size: 25.0,
-                  color: Color(0xff11b719),
+                  color: Theme.of(context).primaryColor,
                 ),
                 SizedBox(
                   width: 25.0,
@@ -115,59 +130,39 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
                 Icon(
                   FontAwesomeIcons.shoppingBag, //coins
                   size: 25.0,
-                  color: Color(0xff11b719),
+                  color: Theme.of(context).primaryColor,
                 ),
                 SizedBox(
                   width: 25.0,
                 ),
-                DropdownButton(
-                  items: _shops
-                      .map((value) => DropdownMenuItem(
-                    child: Text(
-                      value,
-                      style: TextStyle(color: Color(0xff11b1719)),
-                    ),
-                    value: value,
-                  ))
-                      .toList(),
-                  onChanged: (selectedShop) {
+                new DropdownButton(
+                  hint: Text('Mağaza'),
+                  value: selectedShop,
+                  onChanged: (newValue){
                     setState(() {
-                      selectedType = selectedShop;
+                      selectedShop=newValue;
                     });
                   },
-                  value: selectedType,
-                  isExpanded: false,
-                  hint: Text(
-                    'Mağaza',
-                    style: TextStyle(color: Color(0xff11b1719)),
-                  ),
+                  items: _shops.map((shop) {
+                    return DropdownMenuItem(
+                      child: new Text(shop),
+                      value: shop,
+                    );
+                  }).toList(),
                 ),
               ],
             ),
-
-
-
-
-
-
-
             TextFormField(
+              keyboardType: TextInputType.number,
               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
               decoration: InputDecoration(
                 icon: Icon(
                   FontAwesomeIcons.coins,
-                  color: Color(0xff11b719),
+                  color: Theme.of(context).primaryColor,
                 ),
-                hintText: 'Tutar giriniz   sadece rakam alır  ',
-                //labelText: 'Acıklama Ekleyiniz',
+                hintText: 'Tutar',
               ),
             ),
-
-
-
-
-
-
             SizedBox(
               height: 20.0,
             ),
@@ -175,34 +170,27 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(
-                  FontAwesomeIcons.creditCard, //coins
+                  FontAwesomeIcons.shoppingBag, //coins
                   size: 25.0,
-                  color: Color(0xff11b719),
+                  color: Theme.of(context).primaryColor,
                 ),
                 SizedBox(
                   width: 25.0,
                 ),
-                DropdownButton(
-                  items: _accountType
-                      .map((value) => DropdownMenuItem(
-                    child: Text(
-                      value,
-                      style: TextStyle(color: Color(0xff11b1719)),
-                    ),
-                    value: value,
-                  ))
-                      .toList(),
-                  onChanged: (selectedAcoountType) {
+                new DropdownButton(
+                  hint: Text('Ödeme Şekli'),
+                  value: selectedType,
+                  onChanged: (newValue){
                     setState(() {
-                      selectedType = selectedAcoountType;
+                      selectedType=newValue;
                     });
                   },
-                  value: selectedType,
-                  isExpanded: false,
-                  hint: Text(
-                    'Ödeme şekli seçin',
-                    style: TextStyle(color: Color(0xff11b1719)),
-                  ),
+                  items: _accountType.map((type) {
+                    return DropdownMenuItem(
+                      child: new Text(type),
+                      value: type,
+                    );
+                  }).toList(),
                 ),
               ],
             ),
@@ -215,7 +203,7 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
                 Icon(
                   FontAwesomeIcons.userCircle, //coins
                   size: 25.0,
-                  color: Color(0xff11b719),
+                  color: Theme.of(context).primaryColor,
                 ),
                 SizedBox(
                   width: 50.0,
@@ -238,8 +226,7 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
                   value: selectedType,
                   isExpanded: false,
                   hint: Text(
-                    'Kişi Seçiniz',
-                    style: TextStyle(color: Color(0xff11b1719)),
+                    'Kişi',
                   ),
                 ),
               ],
@@ -251,91 +238,57 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(
-                  FontAwesomeIcons.city, //coins
+                  FontAwesomeIcons.shoppingBag, //coins
                   size: 25.0,
-                  color: Color(0xff11b719),
+                  color: Theme.of(context).primaryColor,
                 ),
                 SizedBox(
-                  width: 50.0,
+                  width: 25.0,
                 ),
-                DropdownButton(
-                  items: _cities
-                      .map((value) => DropdownMenuItem(
-                    child: Text(
-                      value,
-                      style: TextStyle(color: Color(0xff11b1719)),
-                    ),
-                    value: value,
-                  ))
-                      .toList(),
-                  onChanged: (selectedCity) {
+                new DropdownButton(
+                  hint: Text('Şehir'),
+                  value: selectedCity,
+                  onChanged: (newValue){
                     setState(() {
-                      selectedType = selectedCity;
+                      selectedCity=newValue;
                     });
                   },
-                  value: selectedType,
-                  isExpanded: false,
-                  hint: Text(
-                    'Şehir seçiniz',
-                    style: TextStyle(color: Color(0xff11b1719)),
-                  ),
+                  items: _cities.map((city) {
+                    return DropdownMenuItem(
+                      child: new Text(city),
+                      value: city,
+                    );
+                  }).toList(),
                 ),
-
               ],
             ),
             TextFormField(
               decoration: InputDecoration(
                 icon: Icon(
                   FontAwesomeIcons.pencilAlt,
-                  color: Color(0xff11b719),
+                  color: Theme.of(context).primaryColor,
                 ),
-                hintText: 'Acıklama Ekleyiniz',
-                //labelText: 'Acıklama Ekleyiniz',
+                hintText: 'Açıklama',
               ),
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Center(
+              child: RaisedButton(
+                color: Theme.of(context).primaryColor,
+                textColor: Theme.of(context).accentColor,
+                child: Text('Ekle'),
+                onPressed: () {
+                }),
             ),
           ],
         ),
       ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.grey),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.attach_money),
-              title: Text(
-                'Harcamalarım',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.trending_up),
-              title: Text(
-                'Rapor',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.timeline),
-              title: Text(
-                'Tahmin',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text(
-                'Profil',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-              ),
-            ),
-          ],
-        ),
+        child: MyBottomNavigationBar()
       ),
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          backgroundColor: Colors.grey,
-          onPressed: () {}),
     );
   }
 }

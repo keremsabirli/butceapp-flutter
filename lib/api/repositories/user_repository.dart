@@ -5,10 +5,10 @@ import 'package:butceappflutter/api/repositories/base_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 class UserRepository extends BaseRepository {
+  String repositoryUri;
   UserRepository() : super() {
     this.repositoryUri = '${super.baseUri}/User';
   }
-  String repositoryUri;
 
   Future<http.Response> signUp(String email, String name, String password) async {
     String requestUri = '${this.repositoryUri}/Signup';

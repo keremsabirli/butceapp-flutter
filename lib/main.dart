@@ -5,6 +5,7 @@ import 'package:butceappflutter/screens/member_add_screen.dart';
 import 'package:butceappflutter/screens/profile_screen.dart';
 import 'package:butceappflutter/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 void main() {
   runApp(MyApp());
@@ -13,6 +14,10 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Colors.grey[800],
