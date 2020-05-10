@@ -1,7 +1,9 @@
 
+import 'package:butceappflutter/api/models/User.dart';
 import 'package:butceappflutter/api/repositories/user_repository.dart';
 import 'package:butceappflutter/widgets/my_app_bar.dart';
 import 'package:butceappflutter/widgets/my_navigation_bar.dart';
+import 'package:butceappflutter/widgets/my_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,23 +13,28 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String name;
+  User user;
   final userRepository = new UserRepository();
   getName() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      this.name = preferences.get('user').name;
     });
   }
   final _formKey = GlobalKey<FormState>();
-  getSharedPreferences() async {
-
+  @override
+  void initState() {
+    this.userRepository.me().then((user) {
+      print(user.name);
+      setState(() {
+        this.user = user;
+      });
+    });
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(title: 'Profil',),
-      body: SingleChildScrollView(
+      body: (this.user != null) ? SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       //open edit profil
                     },
                     title: Text(
-                      "ALİ VELİ",
+                      this.user.name,
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
@@ -111,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ],
-          )),
+          )) : MySpinKit(),
       bottomNavigationBar: MyBottomNavigationBar(),
     );
   }

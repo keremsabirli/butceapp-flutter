@@ -1,4 +1,6 @@
-class ExpenseType {
+import 'Shared.dart';
+
+class ExpenseType extends Shared {
   final String name;
   final String description;
 

@@ -1,7 +1,7 @@
 class Shared {
-  final int id;
-  final DateTime createdDate;
+  final String id;
+  final DateTime createdAt;
   final bool isActive;
 
-  Shared({this.id, this.createdDate, this.isActive});
+  Shared({this.id, this.createdAt, this.isActive});
 }

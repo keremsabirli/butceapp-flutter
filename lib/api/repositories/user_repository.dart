@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:butceappflutter/api/models/User.dart';
 import 'package:butceappflutter/api/repositories/base_repository.dart';
 import 'package:http/http.dart' as http;
@@ -20,16 +19,16 @@ class UserRepository extends BaseRepository {
     //encode Map to JSON
     var body = json.encode(data);
     print(body);
-    var response = await http.post(requestUri,
+    final signUpResponse = await http.post(requestUri,
         headers: {"Content-Type": "application/json"},
         body: body
     );
-    print("${response.statusCode}");
-    print("${response.body}");
+    print("${signUpResponse.statusCode}");
+    print("${signUpResponse.body}");
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    myPrefs.setString('key', response.body);
-    print(myPrefs.get('key'));
-    return response;
+    myPrefs.setString('hashedKey', signUpResponse.body);
+    print(myPrefs.get('hashedKey'));
+    return signUpResponse;
   }
 
   Future<http.Response> logIn(String email, String password) async {
@@ -48,15 +47,28 @@ class UserRepository extends BaseRepository {
     print(response.request);
     print(response.body);
     print(response.statusCode);
+    User user = User.fromJson(jsonDecode(response.body));
     if(response.statusCode == 200) {
-      myPrefs.setString('key', response.body);
-      print(myPrefs.get('key'));
+      myPrefs.setString('hashedKey', user.hashedPassword);
     }
     return response;
   }
+  Future<User> me() async {
+    String requestUri = '${this.repositoryUri}/Me';
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    var response = await http.get(
+      requestUri,
+      headers: {
+        "Content-Type": "application/json",
+        "Key": myPrefs.get('hashedKey')
+      },
+    );
+    User user = User.fromJson(jsonDecode(response.body));
+    return user;
+  }
   Future<bool> logOut() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    myPrefs.remove('key');
+    myPrefs.remove('hashedKey');
     return true;
   }
 }

@@ -20,19 +20,18 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.grey[800],
-        accentColor: Colors.amber,
+        primaryColor: Colors.grey[900],
+        accentColor: Colors.white,
         appBarTheme: AppBarTheme(
-          color: Colors.grey[800],
+          color: Colors.grey[900],
           textTheme: TextTheme(
-            headline6: TextStyle(
-              color: Colors.amber,
+            headline: TextStyle(
+              color: Colors.white,
               fontSize: 22
             )
           )
         )
       ),
-
       initialRoute: '/login',
       routes: <String, WidgetBuilder> {
         '/login': (context) => LoginScreen(),

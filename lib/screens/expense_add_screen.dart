@@ -11,7 +11,6 @@ class ExpenseAddScreen extends StatefulWidget {
 }
 
 class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
-
   final _formKey = GlobalKey<FormState>();
   var selectedCategory;
   var selectedShop;
@@ -39,18 +38,17 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
     'Şok',
     'Shell'
   ];
-  List<String> _cities = <String>[
-    'İstanbul',
-    'Ankara',
-    'Trabzon',
-    'İzmir',
-    'Sakarya',
-    'Kocaeli',
-    'Bursa',
-    'Düzce',
-    'Isparta',
+  List<String> _cities = <String>['Adana', 'Adıyaman', 'Afyon', 'Ağrı', 'Amasya', 'Ankara', 'Antalya', 'Artvin',
+'Aydın', 'Balıkesir', 'Bilecik', 'Bingöl', 'Bitlis', 'Bolu', 'Burdur', 'Bursa', 'Çanakkale',
+'Çankırı', 'Çorum', 'Denizli', 'Diyarbakır', 'Edirne', 'Elazığ', 'Erzincan', 'Erzurum', 'Eskişehir',
+'Gaziantep', 'Giresun', 'Gümüşhane', 'Hakkari', 'Hatay', 'Isparta', 'Mersin', 'İstanbul', 'İzmir', 
+'Kars', 'Kastamonu', 'Kayseri', 'Kırklareli', 'Kırşehir', 'Kocaeli', 'Konya', 'Kütahya', 'Malatya', 
+'Manisa', 'Kahramanmaraş', 'Mardin', 'Muğla', 'Muş', 'Nevşehir', 'Niğde', 'Ordu', 'Rize', 'Sakarya',
+'Samsun', 'Siirt', 'Sinop', 'Sivas', 'Tekirdağ', 'Tokat', 'Trabzon', 'Tunceli', 'Şanlıurfa', 'Uşak',
+'Van', 'Yozgat', 'Zonguldak', 'Aksaray', 'Bayburt', 'Karaman', 'Kırıkkale', 'Batman', 'Şırnak',
+'Bartın', 'Ardahan', 'Iğdır', 'Yalova', 'Karabük', 'Kilis', 'Osmaniye', 'Düzce'
   ];
-  DateTime _currentdate=new DateTime.now();
+  DateTime _currentdate =new DateTime.now();
   Future<Null> _selectDate(BuildContext context)async{
     final DateTime _seldate  = await showDatePicker(
         context: context,
@@ -61,6 +59,9 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
           return SingleChildScrollView(child:child,);
         }
     );
+  }
+  @override
+  void initState() {
   }
   @override
   Widget build(BuildContext context) {
@@ -280,6 +281,7 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
                 textColor: Theme.of(context).accentColor,
                 child: Text('Ekle'),
                 onPressed: () {
+
                 }),
             ),
           ],

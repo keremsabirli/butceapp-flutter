@@ -26,13 +26,13 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(canvasColor: Colors.grey[800]),
+      data: Theme.of(context).copyWith(canvasColor: Colors.grey[900]),
       child: BottomNavigationBar(
         onTap: onTabTapped,
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.equalizer, color: Theme.of(context).accentColor,),
+            icon: Icon(Icons.equalizer, color: Theme.of(context).accentColor),
             title: Text(
               'Haftalık Rapor',
               style: TextStyle(

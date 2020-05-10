@@ -1,5 +1,8 @@
+import 'package:butceappflutter/api/models/Expense.dart';
+import 'package:butceappflutter/api/repositories/expense_repository.dart';
 import 'package:butceappflutter/widgets/my_app_bar.dart';
 import 'package:butceappflutter/widgets/my_navigation_bar.dart';
+import 'package:butceappflutter/widgets/my_spinkit.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,12 +11,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+  final expenseRepository = new ExpenseRepository();
+  List<Expense> expenses;
+  @override
+  void initState() {
+    expenseRepository.get().then((expenses) {
+     setState(() {
+      this.expenses = expenses;
+     });
+   });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(title: 'Harcamalar',),
-      body: ListView(
+      body: (expenses != null) ? ListView(
         padding: const EdgeInsets.all(8),
         children: <Widget>[
           Card(
@@ -23,30 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Column(
                 children: <Widget>[
-                  ListTile(
+                  if(expenses != null) for(var expense in expenses) ListTile(
                     leading: Icon(Icons.attach_money),
-                    title: Text('First expense'),
-                    subtitle: Text('First expense description'),
-                    trailing: Icon(
-                      Icons.keyboard_arrow_right,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Card(
-            child: InkWell(
-              splashColor: Theme.of(context).primaryColor.withAlpha(60),
-              onTap: () {
-
-              },
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.attach_money),
-                    title: Text('Second expense'),
-                    subtitle: Text('Second expense description'),
+                    title: Text(expense.name != null ? expense.name: "Loading") ,
+                    subtitle: Text(expense.description != null ? expense.description: "Loading"),
                     trailing: Icon(
                       Icons.keyboard_arrow_right,
                     ),
@@ -56,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
-      ),
+      ) : MySpinKit(),
       bottomNavigationBar: MyBottomNavigationBar(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
