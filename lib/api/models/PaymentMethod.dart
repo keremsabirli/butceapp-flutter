@@ -1,8 +1,8 @@
 import 'Shared.dart';
 
-class ExpenseType extends Shared {
+class PaymentMethod extends Shared {
   final String name;
   final String description;
 
-  ExpenseType({this.name, this.description});
+  PaymentMethod({this.name, this.description});
 }

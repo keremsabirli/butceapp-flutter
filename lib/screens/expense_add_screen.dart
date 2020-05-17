@@ -33,9 +33,9 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
   List<String> _shops = <String>[
     'Mavi',
     'Burger King',
-    'MAVİ',
     'A-101',
     'Şok',
+    'MAVİ',
     'Shell'
   ];
   List<String> _cities = <String>['Adana', 'Adıyaman', 'Afyon', 'Ağrı', 'Amasya', 'Ankara', 'Antalya', 'Artvin',

@@ -21,9 +21,9 @@ class Expense extends Shared {
   factory Expense.fromJson(dynamic json) {
     return Expense(
       name: json['name'],
-      amount: json['userId'],
-      description: json['corporateTypeId'],
-      city: json['iconUrl'],
+      description: json['description'],
+      amount: json['amount'],
+      city: json['city'],
       corporateId: json['corporateId'],
       memberId: json['memberId']
     );

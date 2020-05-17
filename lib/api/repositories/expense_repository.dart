@@ -25,12 +25,14 @@ class ExpenseRepository extends BaseRepository {
     List<Expense> expenses = expensesJson.map((expenseJson) => Expense.fromJson(expenseJson)).toList();
     return expenses;
   }
-  Future<http.Response> post(User user) async {
+  Future<http.Response> post(Expense expense) async {
     String requestUri = '${this.repositoryUri}';
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     var response = await http.post(
       requestUri,
-      body: user,
+      body: expense,
     );
+  }
+  Future<bool> delete(String id) async {
   }
 }
