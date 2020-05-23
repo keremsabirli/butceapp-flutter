@@ -1,4 +1,5 @@
 import 'package:butceappflutter/api/models/Expense.dart';
+import 'package:butceappflutter/api/repositories/expense_repository.dart';
 import 'package:butceappflutter/widgets/my_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ class ExpenseDetailScreen extends StatefulWidget {
 }
 
 class _ExpenseDetailScreenState extends State<ExpenseDetailScreen> {
+  ExpenseRepository expenseRepository = new ExpenseRepository();
   final _formKey = GlobalKey<FormState>();
   void initState() {
     super.initState();
@@ -110,14 +112,20 @@ class _ExpenseDetailScreenState extends State<ExpenseDetailScreen> {
                       child: Text('Edit'),
                       color: Colors.blue[800],
                       textColor: Colors.white,
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                     ),
                     SizedBox(width: 20),
                     RaisedButton(
                       color: Colors.red[800],
                       textColor: Colors.white,
                       onPressed: () {
+                        this.expenseRepository
+                        .delete(widget.expense.id)
+                        .then((response) {
+                          if(response.statusCode == 200) {
+                            Navigator.pushReplacementNamed(context, '/homepage');
+                          }
+                        });
                       },
                       child: Text('Delete'),
                     )

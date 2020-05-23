@@ -50,6 +50,9 @@ class UserRepository extends BaseRepository {
     User user = User.fromJson(jsonDecode(response.body));
     if(response.statusCode == 200) {
       myPrefs.setString('hashedKey', user.hashedPassword);
+      myPrefs.setString('userId', user.id);
+      myPrefs.setString('username', user.name);
+      myPrefs.setString('userMail', user.mailAddress);
     }
     return response;
   }

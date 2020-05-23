@@ -15,6 +15,12 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
         }
       }
       break;
+      case 1: {
+        if(ModalRoute.of(context).settings.name != '/report') {
+          Navigator.pushReplacementNamed(context, '/report');
+        }
+      }
+      break;
       case 3: {
         if(ModalRoute.of(context).settings.name != '/profile') {
           Navigator.pushReplacementNamed(context, '/profile');
@@ -34,7 +40,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.equalizer, color: Theme.of(context).accentColor),
             title: Text(
-              'Haftalık Rapor',
+              'Harcamalarım',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
@@ -45,7 +51,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.trending_up, color: Theme.of(context).accentColor,),
             title: Text(
-              'Aylık Rapor',
+              'Rapor',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12,

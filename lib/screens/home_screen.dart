@@ -39,8 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: <Widget>[
                   ListTile(
                     leading: Icon(Icons.attach_money),
-                    title: Text(expense.name != null ? expense.name: "Loading") ,
-                    subtitle: Text(expense.description != null ? expense.description: "Loading"),
+                    title: Text(expense.name != null ? expense.name: "") ,
+                    subtitle: Text(expense.description != null ? expense.description: ""),
                     trailing: Icon(
                       Icons.keyboard_arrow_right,
                     ),
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Theme.of(context).accentColor,
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/expense/add');
+          Navigator.pushNamed(context, '/expense/add');
         },
         child: Icon(Icons.add),
       ),

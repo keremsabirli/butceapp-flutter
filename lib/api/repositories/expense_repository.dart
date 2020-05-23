@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:butceappflutter/api/models/Expense.dart';
-import 'package:butceappflutter/api/models/User.dart';
 import 'package:butceappflutter/api/repositories/base_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,11 +27,30 @@ class ExpenseRepository extends BaseRepository {
   Future<http.Response> post(Expense expense) async {
     String requestUri = '${this.repositoryUri}';
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    var body = json.encode(expense.toMap());
+    print(body);
     var response = await http.post(
       requestUri,
-      body: expense,
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+        "Key": myPrefs.get('hashedKey')
+      },
     );
+    print(response.statusCode);
+    print(response.body);
+    return response;
   }
-  Future<bool> delete(String id) async {
+  Future<http.Response> delete(String id) async {
+    String requestUri = '${this.repositoryUri}/$id';
+    print(requestUri);
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    var response = await http.delete(
+      requestUri,
+      headers: {
+        "Key": myPrefs.get('hashedKey')
+      },
+    );
+    return response;
   }
 }
