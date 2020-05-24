@@ -16,41 +16,62 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Expense> expenses;
   @override
   void initState() {
-    expenseRepository.get().then((expenses) {
-     setState(() {
-      this.expenses = expenses;
-     });
-   });
+    this.getExpenses();
   }
+
+  Future<void> getExpenses() async {
+    await expenseRepository.get().then((expenses) {
+      setState(() {
+        this.expenses = expenses;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: 'Harcamalar',),
-      body: (expenses != null) ? ListView(
-        padding: const EdgeInsets.all(8),
-        children: <Widget>[
-          if(expenses != null) for(var expense in expenses) Card(
-            child: InkWell(
-              splashColor: Theme.of(context).primaryColor.withAlpha(60),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ExpenseDetailScreen(expense: expense)));
-              },
-              child: Column(
+      appBar: MyAppBar(
+        title: 'Harcamalar',
+      ),
+      body: (expenses != null)
+          ? RefreshIndicator(
+            color: Theme.of(context).primaryColor,
+              child: ListView(
+                padding: const EdgeInsets.all(8),
                 children: <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.attach_money),
-                    title: Text(expense.name != null ? expense.name: "") ,
-                    subtitle: Text(expense.description != null ? expense.description: ""),
-                    trailing: Icon(
-                      Icons.keyboard_arrow_right,
-                    ),
-                  ),
+                  if (expenses != null)
+                    for (var expense in expenses)
+                      Card(
+                        child: InkWell(
+                          splashColor:
+                              Theme.of(context).primaryColor.withAlpha(60),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    ExpenseDetailScreen(expense: expense)));
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                leading: Icon(Icons.attach_money),
+                                title: Text(
+                                    expense.name != null ? expense.name : ""),
+                                subtitle: Text(expense.description != null
+                                    ? expense.description
+                                    : ""),
+                                trailing: Icon(
+                                  Icons.keyboard_arrow_right,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                 ],
               ),
-            ),
-          ),
-        ],
-      ) : MySpinKit(),
+              onRefresh: this.getExpenses
+            )
+          : MySpinKit(),
       bottomNavigationBar: MyBottomNavigationBar(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,

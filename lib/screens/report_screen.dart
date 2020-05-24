@@ -1,3 +1,6 @@
+import 'dart:collection';
+
+import 'package:butceappflutter/api/repositories/expense_repository.dart';
 import 'package:butceappflutter/widgets/my_app_bar.dart';
 import 'package:butceappflutter/widgets/my_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -9,35 +12,73 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
+  String selectedReport = 'Günlük';
+  List<ReportData> reportData = new List<ReportData>();
+  ExpenseRepository expenseRepository = new ExpenseRepository();
+  List<String> _reports = <String>[
+    'Günlük',
+    'Haftalık',
+    'Aylık'
+  ];
+  getReportData() {
+    this.expenseRepository.getReportData().then((value) {
+      List<ReportData> temp = new List<ReportData>();
+      value.forEach((key, value) {
+        temp.add(new ReportData(date: key, value: value));
+      });
+      setState(() {
+        this.reportData = temp;
+      });
+    });
+  }
+  @override
+  void initState() {
+    this.getReportData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(title: 'Rapor'),
       body: ListView(
+        shrinkWrap: true,
         children: <Widget>[
+          SizedBox(height: 10),
           SfCartesianChart(
-            primaryXAxis: CategoryAxis(),
-            series: <LineSeries<SalesData, String>>[
-              LineSeries<SalesData, String>(
-                // Bind data source
-                dataSource:  <SalesData>[
-                  SalesData('Jan', 35),
-                  SalesData('Feb', 28),
-                  SalesData('Mar', 34),
-                  SalesData('Apr', 32),
-                  SalesData('May', 40)
-                ],
-                xValueMapper: (SalesData sales, _) => sales.year,
-                yValueMapper: (SalesData sales, _) => sales.sales
-              ),
-            ]
-          ),
+              primaryXAxis: CategoryAxis(),
+              series: <LineSeries<ReportData, String>>[
+                LineSeries<ReportData, String>(
+                    // Bind data source
+                    dataSource: this.reportData,
+                    xValueMapper: (ReportData sales, _) => sales.date,
+                    yValueMapper: (ReportData sales, _) => sales.value),
+              ]),
           Row(
             children: <Widget>[
-              TextFormField(
-                
+              SizedBox(
+                width: 25,
               ),
-              TextFormField(),
+              DropdownButton(
+                onChanged: (value) {
+                  setState(() {
+                    this.selectedReport = value;
+                  });
+                },
+                hint: Text('Kategori'),
+                value: selectedReport,
+                items: _reports.map((report) {
+                  return DropdownMenuItem(
+                    child: new Text(report),
+                    value: report,
+                  );
+                }).toList(),
+              ),
+              SizedBox(
+                width: 25,
+              ),
+              DropdownButton(
+                hint: Text('Kategori'),
+                value: selectedReport,
+              ),
             ],
           )
         ],
@@ -47,8 +88,8 @@ class _ReportScreenState extends State<ReportScreen> {
   }
 }
 
-class SalesData {
-  SalesData(this.year, this.sales);
-  final String year;
-  final double sales;
+class ReportData {
+  ReportData({this.date, this.value});
+  final String date;
+  final double value;
 }

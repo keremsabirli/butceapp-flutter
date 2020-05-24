@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:butceappflutter/api/models/Expense.dart';
@@ -10,7 +11,7 @@ class ExpenseRepository extends BaseRepository {
   ExpenseRepository() : super() {
     this.repositoryUri = '${super.baseUri}/Expense';
   }
-  Future<List<Expense>> get() async{
+  Future<List<Expense>> get() async {
     String requestUri = '${this.repositoryUri}';
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     var response = await http.get(
@@ -23,6 +24,19 @@ class ExpenseRepository extends BaseRepository {
     var expensesJson = jsonDecode(response.body) as List;
     List<Expense> expenses = expensesJson.map((expenseJson) => Expense.fromJson(expenseJson)).toList();
     return expenses;
+  }
+  Future<Map> getReportData() async {
+    String requestUri = '${this.repositoryUri}/Report/Daily';
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    var response = await http.get(
+      requestUri,
+      headers: {
+        "Content-Type": "application/json",
+        "Key": myPrefs.get('hashedKey')
+      }
+    );
+    var expensesJson = jsonDecode(response.body);
+    return expensesJson;
   }
   Future<http.Response> post(Expense expense) async {
     String requestUri = '${this.repositoryUri}';

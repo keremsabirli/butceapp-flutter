@@ -7,8 +7,9 @@ import 'package:butceappflutter/screens/report_screen.dart';
 import 'package:butceappflutter/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+import 'package:syncfusion_flutter_core/core.dart';
 void main() {
+  SyncfusionLicense.registerLicense("NT8mJyc2IWhia31ifWN9ZmFoZXxhYXxhY2Fjc2dpYmdpZ2FzAx5oODYhNj59IDIxOiE/OhM8NCF9IDI4MiEqMn02NyZ9JyE=");
   runApp(MyApp());
 }
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           color: Colors.grey[900],
           textTheme: TextTheme(
-            headline: TextStyle(
+            headline5: TextStyle(
               color: Colors.white,
               fontSize: 22
             )

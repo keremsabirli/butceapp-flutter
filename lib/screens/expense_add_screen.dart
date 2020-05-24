@@ -399,7 +399,7 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
                           );
                           this.expenseRepository.post(expense).then((response) {
                             if (response.statusCode == 200) {
-                              Navigator.popAndPushNamed(context, '/homepage');
+                              Navigator.pop(context);
                             }
                           });
                           }
