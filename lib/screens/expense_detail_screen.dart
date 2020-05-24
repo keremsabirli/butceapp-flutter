@@ -123,7 +123,7 @@ class _ExpenseDetailScreenState extends State<ExpenseDetailScreen> {
                         .delete(widget.expense.id)
                         .then((response) {
                           if(response.statusCode == 200) {
-                            Navigator.pushReplacementNamed(context, '/homepage');
+                            Navigator.pop(context);
                           }
                         });
                       },

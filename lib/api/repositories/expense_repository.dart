@@ -25,8 +25,13 @@ class ExpenseRepository extends BaseRepository {
     List<Expense> expenses = expensesJson.map((expenseJson) => Expense.fromJson(expenseJson)).toList();
     return expenses;
   }
-  Future<Map> getReportData() async {
-    String requestUri = '${this.repositoryUri}/Report/Daily';
+  Future<Map> getReportData({String reportType, DateTime startDate, DateTime endDate}) async {
+    String requestUri = '';
+    if(reportType == 'Günlük') requestUri = '${this.repositoryUri}/Report/Daily';
+    else requestUri = '${this.repositoryUri}/Report/Monthly';
+    if(startDate != null && endDate != null) {
+      requestUri += '?startDate=$startDate&endDate=$endDate';
+    }
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     var response = await http.get(
       requestUri,
