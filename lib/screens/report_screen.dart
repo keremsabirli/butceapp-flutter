@@ -14,8 +14,8 @@ class ReportScreen extends StatefulWidget {
 class _ReportScreenState extends State<ReportScreen> {
   String selectedReport = 'Günlük';
   String title;
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now();
+  DateTime startDate = null;
+  DateTime endDate = null;
   List<ReportData> reportData = new List<ReportData>();
   ExpenseRepository expenseRepository = new ExpenseRepository();
   List<String> _reports = <String>['Günlük', 'Aylık'];

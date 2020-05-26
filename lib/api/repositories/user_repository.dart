@@ -19,16 +19,19 @@ class UserRepository extends BaseRepository {
     //encode Map to JSON
     var body = json.encode(data);
     print(body);
-    final signUpResponse = await http.post(requestUri,
+    final response = await http.post(requestUri,
         headers: {"Content-Type": "application/json"},
         body: body
     );
-    print("${signUpResponse.statusCode}");
-    print("${signUpResponse.body}");
+    print("${response.statusCode}");
+    print("${response.body}");
+    User user = User.fromJson(jsonDecode(response.body));
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    myPrefs.setString('hashedKey', signUpResponse.body);
-    print(myPrefs.get('hashedKey'));
-    return signUpResponse;
+    myPrefs.setString('hashedKey', user.hashedPassword);
+    myPrefs.setString('userId', user.id);
+    myPrefs.setString('username', user.name);
+    myPrefs.setString('userMail', user.mailAddress);
+    return response;
   }
 
   Future<http.Response> logIn(String email, String password) async {
