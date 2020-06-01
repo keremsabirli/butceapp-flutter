@@ -20,6 +20,7 @@ class ExpenseAddScreen extends StatefulWidget {
 }
 
 class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
+  bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
   Expense expense = new Expense();
   String selectedCategory;
@@ -384,7 +385,10 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
                         color: Theme.of(context).primaryColor,
                         textColor: Theme.of(context).accentColor,
                         child: Text('Ekle'),
-                        onPressed: () {
+                        onPressed: !isLoading ? () {
+                          setState(() {
+                            isLoading = true;
+                          });
                           if(_formKey.currentState.validate() && this.selectedDate != null){
                             Expense expense = new Expense(
                             id: uuid.v4(),
@@ -400,10 +404,11 @@ class _ExpenseAddScreenState extends State<ExpenseAddScreen> {
                           this.expenseRepository.post(expense).then((response) {
                             if (response.statusCode == 200) {
                               Navigator.pop(context);
+                              isLoading = false;
                             }
                           });
-                          }
-                        }),
+                          } 
+                        }: null),
                   ),
                 ],
               ),

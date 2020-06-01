@@ -60,39 +60,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   )),
               const SizedBox(height: 10.0),
-              Card(
-                elevation: 4.0,
-                margin: const EdgeInsets.fromLTRB(32.0, 8.0, 32.0, 16.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: Column(
-                  children: <Widget>[
-                    ListTile(
-                      leading: Icon(
-                        Icons.lock_outline,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      title: Text("Profili düzenle"),
-                      trailing: Icon(
-                        Icons.keyboard_arrow_right,
-                      ),
-                      onTap: () {},
-                    ),
-                    _buildDivider(),
-                    ListTile(
-                      leading: Icon(
-                        Icons.person,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      title: Text("Kişileri düzenle"),
-                      trailing: Icon(Icons.keyboard_arrow_right),
-                      onTap: () {
-                        Navigator.pushNamed(context, '/members/add');
-                      },
-                    ),
-                  ],
-                ),
-              ),
+              // Card(
+              //   elevation: 4.0,
+              //   margin: const EdgeInsets.fromLTRB(32.0, 8.0, 32.0, 16.0),
+              //   shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(10.0)),
+              //   child: Column(
+              //     children: <Widget>[
+              //       ListTile(
+              //         leading: Icon(
+              //           Icons.lock_outline,
+              //           color: Theme.of(context).primaryColor,
+              //         ),
+              //         title: Text("Profili düzenle"),
+              //         trailing: Icon(
+              //           Icons.keyboard_arrow_right,
+              //         ),
+              //         onTap: () {},
+              //       ),
+              //       _buildDivider(),
+              //       ListTile(
+              //         leading: Icon(
+              //           Icons.person,
+              //           color: Theme.of(context).primaryColor,
+              //         ),
+              //         title: Text("Kişileri düzenle"),
+              //         trailing: Icon(Icons.keyboard_arrow_right),
+              //         onTap: () {
+              //           Navigator.pushNamed(context, '/members/add');
+              //         },
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox( height: 10, ),
               Center(
                 child: RaisedButton(

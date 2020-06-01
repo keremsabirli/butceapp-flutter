@@ -1,4 +1,5 @@
 import 'package:butceappflutter/screens/expense_add_screen.dart';
+import 'package:butceappflutter/screens/forecast_screen.dart';
 import 'package:butceappflutter/screens/home_screen.dart';
 import 'package:butceappflutter/screens/login_screen.dart';
 import 'package:butceappflutter/screens/member_add_screen.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/members/add': (context) => MemberAddScreen(),
         '/expense/add': (context) => ExpenseAddScreen(),
         '/report': (context) => ReportScreen(),
+        // '/forecast': (context) => ForecastScreen(),
       },
     );
   }

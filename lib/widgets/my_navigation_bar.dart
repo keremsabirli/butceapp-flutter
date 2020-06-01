@@ -51,7 +51,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.trending_up, color: Theme.of(context).accentColor,),
             title: Text(
-              'Rapor',
+              'Rapor ve Tahmin',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
@@ -59,17 +59,17 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
               ),
             ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.timeline, color: Theme.of(context).accentColor,),
-            title: Text(
-              'Tahmin',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Theme.of(context).accentColor,
-              ),
-            ),
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.timeline, color: Theme.of(context).accentColor,),
+          //   title: Text(
+          //     'Tahmin',
+          //     style: TextStyle(
+          //       fontWeight: FontWeight.bold,
+          //       fontSize: 12,
+          //       color: Theme.of(context).accentColor,
+          //     ),
+          //   ),
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person, color: Theme.of(context).accentColor,),
             title: Text(
